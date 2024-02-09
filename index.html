@@ -1,70 +1,560 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Plateforme de Réservation de Voyages</title>
+    <title>Destination Idéale - Site de Réservation de Voyages</title>
+    <style>
+      /* Styles CSS pour la mise en forme */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        background-image: url("https://photos.altai-travel.com/1920x1040/road-trip-en-islande-nick-fox-25330.jpg"); /* Image de fond */
+        background-size: cover;
+        background-position: center;
+      }
+      h2 {
+        color: #4248f6e7;
+      }
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 24px;
+      }
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+        overflow: hidden;
+      }
+      nav li {
+        float: left;
+      }
+      nav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      nav li a:hover {
+        background-color: #0056b3;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+      }
+      .destination-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .destination-info label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      /* Style personnalisé pour le sélecteur de pays */
+      #departure-location {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        outline: none;
+        cursor: pointer;
+        flex: 1;
+        width: 100%;
+      }
+      #departure-location option {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+      #departure-location:hover {
+        background-color: #f0f0f0;
+      }
+      #departure-location:focus {
+        border-color: #007bff;
+      }
+      /* Fin du style personnalisé pour le sélecteur de pays */
+      .button-group {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      .button-group button {
+        flex: 1;
+        padding: 15px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+      .button-group button:hover {
+        background-color: #0056b3;
+        color: #fff;
+      }
+      .button-group button.selected {
+        background-color: #007bff;
+        color: #fff;
+      }
+      .slider-container {
+        margin-top: 20px;
+      }
+      .slider-label {
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .slider-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      .slider-wrapper span {
+        font-size: 14px;
+        color: #fff;
+      }
+      .slider {
+        width: 70%;
+        margin-left: 10px;
+      }
+      .output {
+        color: #007bff;
+      }
+      .submit-button {
+        display: block;
+        width: 200px;
+        padding: 10px;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+      /* Styles CSS pour le formulaire de recherche de vols */
+      #suggestions {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      #flightForm {
+        max-width: 600px;
+        margin: auto;
+      }
+      #flightForm label {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+      }
+      #flightForm input[type="text"],
+      #flightForm input[type="date"],
+      #flightForm input[type="number"],
+      #flightForm select {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.5); /* Fond semi-transparent */
+      }
+      #flightForm button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        width: 100%;
+      }
+      #flightForm button:hover {
+        background-color: #0056b3;
+      }
+      /* Affichage des suggestions de vols */
+      #flightDetails {
+        margin-top: 20px;
+      }
+      #flightDetails h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      #flightDetails p {
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+      #flightDetails hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 10px 0;
+      }
+      /* Style pour les images des continents */
+      .continent-image {
+        width: 100px; /* Ajustez la taille selon vos besoins */
+        height: auto; /* Pour maintenir le ratio */
+      }
+    </style>
   </head>
   <body>
-    <h1>Bienvenue sur notre plateforme de réservation de voyages !</h1>
-    <div id="suggestions">
-      <!-- Les suggestions de voyages seront affichées ici -->
-      <button type="button" id="api">Push for api</button>
-      <div id="flightDetails"></div>
-    </div>
- <script>
-      const btn = document.getElementById("api");
-      const flightDetailsContainer = document.getElementById("flightDetails");
+    <header>Destination Idéale</header>
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="index1.html">Accueil</a></li>
+          <li><a href="destination.html">Destinations</a></li>
+          <li style="float: right"><a href="#">À propos</a></li>
+          <li style="float: right"><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="destination-info">
+        <label for="departure-location">Lieu de Départ :</label>
+        <select name="departure-location" id="departure-location">
+          <option value="paris">Paris</option>
+          <option value="new_york">New York</option>
+          <option value="tokyo">Tokyo</option>
+          <!-- Ajoutez d'autres options au besoin -->
+        </select>
+      </div>
+      <h2>Continent :</h2>
+      <div class="button-group" id="continent-buttons">
+        <button id="europe">
+          <img
+            class="continent-image"
+            src="https://cdn-icons-png.flaticon.com/512/703/703334.png"
+            alt="Europe"
+          />
+        </button>
+        <button id="middle-east">
+          <img
+            class="continent-image"
+            src="https://cdn-icons-png.flaticon.com/512/10170/10170613.png"
+            alt="Moyen-Orient"
+          />
+        </button>
+        <button id="north-america">
+          <img
+            class="continent-image"
+            src="https://cdn-icons-png.flaticon.com/512/703/703338.png"
+            alt="Amérique du Nord"
+          />
+        </button>
+        <button id="south-america">
+          <img
+            class="continent-image"
+            src="https://cdn-icons-png.flaticon.com/512/703/703337.png"
+            alt="Amérique du Sud"
+          />
+        </button>
+      </div>
+      <div class="slider-container">
+        <div class="slider-wrapper">
+          <div>
+            <span>Niveau de Budget (€) :</span>
+            <output for="budget" id="budget-output" class="output">2000</output>
+          </div>
+          <input
+            type="range"
+            min="100"
+            max="4000"
+            value="2000"
+            class="slider"
+            id="budget"
+          />
+        </div>
+        <div class="slider-wrapper">
+          <div>
+            <span>Température (°C) :</span>
+            <output for="temperature" id="temperature-output" class="output"
+              >20</output
+            >
+          </div>
+          <input
+            type="range"
+            min="-10"
+            max="40"
+            value="20"
+            class="slider"
+            id="temperature"
+          />
+        </div>
+      </div>
+      <!-- Formulaire de recherche de vols -->
+      <div id="suggestions">
+        <h2>Formulaire :</h2>
+        <form id="flightForm">
+          <label for="sourceAirportCode">Code de l'aéroport de départ:</label>
+          <input
+            type="text"
+            id="sourceAirportCode"
+            name="sourceAirportCode"
+            value="BOM"
+            required
+          /><br /><br />
 
-      const sourceAirportCode = "BOM";
-      const destinationAirportCode = "DEL";
-      const date = "2024-02-08";
-      const iterType = "ROUND_TRIP";
-      const sortOrder = "PRICE";
-      const numAdults = "1";
-      const classOfService = "BUSINESS";
-      const rdate = "2024-02-10";
-   
-const getData = async () => {
-        const res = await fetch(
-          'https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchAirport?sourceAirportCode=${sourceAirportCode}&destinationAirportCode=${destinationAirportCode}&date=${date}&itineraryType=${iterType}&sortOrder=${sortOrder}&numAdults=${numAdults}&numSeniors=0&classOfService=${classOfService}&returnDate=${rdate}&pageNumber=1&currencyCode=USD`,
-          {
-            method: "GET",
-            headers: {
-              "X-RapidAPI-Key":
-                "2d3f7173e9msh8e091dbf0a708d3p1165afjsn0ca53d946bfb",
-              "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
-            },
-          }
+          <label for="destinationAirportCode"
+            >Code de l'aéroport de destination:</label
+          >
+          <input
+            type="text"
+            id="destinationAirportCode"
+            name="destinationAirportCode"
+            value="DEL"
+            required
+          /><br /><br />
+
+          <label for="date">Date de départ:</label>
+          <input type="date" id="date" name="date" required /><br /><br />
+
+          <label for="returnDate">Date de retour:</label>
+          <input
+            type="date"
+            id="returnDate"
+            name="returnDate"
+            required
+          /><br /><br />
+
+          <label for="numAdults">Nombre d'adultes:</label>
+          <input
+            type="number"
+            id="numAdults"
+            name="numAdults"
+            value="1"
+            min="1"
+            required
+          /><br /><br />
+
+          <!-- Ajout des champs supplémentaires -->
+          <label for="numSeniors">Nombre de personnes âgées:</label>
+          <input
+            type="number"
+            id="numSeniors"
+            name="numSeniors"
+            value="0"
+            min="0"
+            required
+          /><br /><br />
+
+          <label for="classOfService">Classe de service:</label>
+          <select id="classOfService" name="classOfService" required>
+            <option value="ECONOMY">Économie</option>
+            <option value="BUSINESS">Affaires</option>
+            <option value="FIRST">Première classe</option></select
+          ><br /><br />
+
+          <!-- Bouton de soumission -->
+          <button type="submit">Rechercher des vols</button>
+        </form>
+
+        <!-- Les suggestions de voyages seront affichées ici -->
+        <div id="flightDetails"></div>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript pour gérer le formulaire de recherche de vols et l'affichage des résultats
+      document.addEventListener("DOMContentLoaded", function () {
+        const continentButtons = document.querySelectorAll(
+          "#continent-buttons button"
+        );
+        const departureLocationSelect =
+          document.getElementById("departure-location");
+        const sourceAirportCodeInput =
+          document.getElementById("sourceAirportCode");
+        const destinationAirportCodeInput = document.getElementById(
+          "destinationAirportCode"
         );
 
-        const data = await res.json();
-        return data; // Retourne la liste des vols depuis l'objet 'data'
-      };
+        // Mapping des villes de départ avec les codes d'aéroport correspondants
+        const departureLocations = {
+          paris: "CDG", // Paris Charles de Gaulle
+          new_york: "JFK", // New York JFK
+          tokyo: "NRT", // Tokyo Narita
+        };
 
-      const displayFlights = async () => {
-        const flights = await getData(); // Obtient la liste des vols
-        console.log("data", flights);
-        // Parcours la liste des vols et affiche les détails de chaque vol
-        const flightDetails = `
-          <div>
-            <p>Nom du vol: ${flights[0].purchaseLinks[0].commerceName}</p>
-            <p>Compagnie aérienne: ${flights[0].purchaseLinks[0].partnerSuppliedProvider.displayName}</p>
-     
-       <p>Départ: BOM</p>
-            <p>Arrivée: DEL</p>
-            <p>Prix: ${flights[0].purchaseLinks[0].totalPrice}</p>
-            <hr />
-          </div>
-        ;
-        console.log(flightDetails);
-        flightDetailsContainer.insertAdjacentHTML("beforeend", flightDetails);
-      };
+        // Mapping des continents avec les codes d'aéroport de destination
+        const continentDestinations = {
+          europe: "CDG", // Paris Charles de Gaulle
+          "middle-east": "DXB", // Dubai
+          "north-america": "JFK", // New York JFK
+          "south-america": "GRU", // São Paulo Guarulho
+        };
 
-      btn.addEventListener("click", async () => {
-        flightDetailsContainer.innerHTML = ""; // Efface les détails des vols précédents avant d'afficher les nouveaux
-        await displayFlights(); // Affiche les détails des vols
+        // Gestion du changement de ville de départ dans la liste déroulante
+        departureLocationSelect.addEventListener("change", function () {
+          const selectedDepartureLocation = departureLocationSelect.value;
+          const sourceAirportCode =
+            departureLocations[selectedDepartureLocation];
+          if (sourceAirportCode) {
+            sourceAirportCodeInput.value = sourceAirportCode;
+          }
+        });
+
+        // Gestion des clics sur les images des continents
+        continentButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const continentId = button.id;
+            const destinationAirportCode = continentDestinations[continentId];
+            if (destinationAirportCode) {
+              destinationAirportCodeInput.value = destinationAirportCode;
+            }
+            // Supprimer la classe 'selected' de tous les boutons
+            continentButtons.forEach((btn) => btn.classList.remove("selected"));
+            // Ajouter la classe 'selected' au bouton actuel
+            button.classList.add("selected");
+          });
+        });
+
+        // Récupération des éléments de curseur et d'affichage
+        const budgetSlider = document.getElementById("budget");
+        const budgetOutput = document.getElementById("budget-output");
+        const temperatureSlider = document.getElementById("temperature");
+        const temperatureOutput = document.getElementById("temperature-output");
+
+        // Mise à jour des valeurs affichées du curseur lors du déplacement
+        function updateSliderOutput(slider, output) {
+          output.textContent = slider.value;
+        }
+
+        budgetSlider.addEventListener("input", function () {
+          updateSliderOutput(budgetSlider, budgetOutput);
+        });
+
+        temperatureSlider.addEventListener("input", function () {
+          updateSliderOutput(temperatureSlider, temperatureOutput);
+        });
+
+        const flightForm = document.getElementById("flightForm");
+        const flightDetailsContainer = document.getElementById("flightDetails");
+
+        flightForm.addEventListener("submit", async (event) => {
+          event.preventDefault(); // Prevent the page from reloading on form submission
+
+          const formData = new FormData(flightForm);
+          const sourceAirportCode = formData.get("sourceAirportCode");
+          const destinationAirportCode = formData.get("destinationAirportCode");
+          const date = formData.get("date");
+          const rdate = formData.get("returnDate");
+          const numAdults = formData.get("numAdults");
+          const numSeniors = formData.get("numSeniors");
+          const classOfService = formData.get("classOfService");
+
+          // Call the function to search for flights using the form data
+          const flight = await searchFlights(
+            sourceAirportCode,
+            destinationAirportCode,
+            date,
+            rdate,
+            numAdults,
+            numSeniors,
+            classOfService
+          );
+          await displayFlights(flight);
+        });
+        const searchFlights = async (
+          sourceAirportCode,
+          destinationAirportCode,
+          date,
+          rdate,
+          numAdults,
+          numSeniors,
+          classOfService // Ajout des nouveaux paramètres
+        ) => {
+          const res = await fetch(
+            `https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=${sourceAirportCode}&destinationAirportCode=${destinationAirportCode}&date=${date}&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=${numAdults}&numSeniors=0&classOfService=${classOfService}&returnDate=${rdate}&pageNumber=1&currencyCode=USD`,
+            {
+              method: "GET",
+              headers: {
+                "X-RapidAPI-Key":
+                  "6afcbfb716mshb7c98be5a844147p16a76bjsnfb5c286d9855",
+                "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
+              },
+            }
+          );
+
+          const data = await res.json();
+          console.log(data);
+          return data.data.flights; // Retourne la liste des vols depuis l'objet 'data'
+        };
+
+        const displayFlights = (flights) => {
+          flightDetailsContainer.innerHTML = ""; // Efface les détails des vols précédents avant d'afficher les nouveaux
+
+          flights.forEach((flight, index) => {
+            const flightDetails = `
+               <div>
+                 <h2>Vol ${index + 1}:</h2>
+                 <p>Nom du vol: ${flight.purchaseLinks[0].commerceName}</p>
+                 <p>Compagnie aérienne: ${
+                   flight.purchaseLinks[0].partnerSuppliedProvider.displayName
+                 }</p>
+                 <p>Départ: ${flight.segments[0].departureAirportCode}</p>
+                 <p>Arrivée: ${
+                   flight.segments[flight.segments.length - 1]
+                     .arrivalAirportCode
+                 }</p>
+                 <p>Prix: ${flight.purchaseLinks[0].totalPrice}</p>
+                 <hr />
+               </div>
+             `;
+            flightDetailsContainer.insertAdjacentHTML(
+              "beforeend",
+              flightDetails
+            );
+          });
+        };
       });
+
+      // flights.forEach((flight, index) => {
+      //   const flightDetails = `
+      //      <div>
+      //        <h2>Vol ${index + 1}:</h2>
+      //        <p>Nom du vol: ${flight.purchaseLinks[0].commerceName}</p>
+      //        <p>Compagnie aérienne: ${
+      //          flight.purchaseLinks[0].partnerSuppliedProvider.displayName
+      //        }</p>
+      //        <p>Départ: ${flight.segments[0].departureAirportCode}</p>
+      //        <p>Arrivée: ${
+      //          flight.segments[flight.segments.length - 1]
+      //            .arrivalAirportCode
+      //        }</p>
+      //        <p>Prix: ${flight.purchaseLinks[0].totalPrice}</p>
+      //        <hr />
+      //      </div>
+      //    `;
+      //    flightDetailsContainer.insertAdjacentHTML(
+      //     "beforeend",
+      //     flightDetails
+      //   );
+
+      //     })
     </script>
   </body>
 </html>
