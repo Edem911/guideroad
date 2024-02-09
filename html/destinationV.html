@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plateforme de Réservation de Voyages</title>
+  </head>
+  <body>
+    <h1>Bienvenue sur notre plateforme de réservation de voyages !</h1>
+    <div id="suggestions">
+      <!-- Formulaire pour saisir les informations de voyage -->
+      <form id="flightForm">
+        <label for="sourceAirportCode">Code de l'aéroport de départ:</label>
+        <input
+          type="text"
+          id="sourceAirportCode"
+          name="sourceAirportCode"
+          value="BOM"
+          required
+        /><br /><br />
+
+        <label for="destinationAirportCode"
+          >Code de l'aéroport de destination:</label
+        >
+        <input
+          type="text"
+          id="destinationAirportCode"
+          name="destinationAirportCode"
+          value="DEL"
+          required
+        /><br /><br />
+
+        <label for="date">Date de départ:</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value="2024-02-08"
+          required
+        /><br /><br />
+
+        <label for="returnDate">Date de retour:</label>
+        <input
+          type="date"
+          id="returnDate"
+          name="returnDate"
+          value="2024-02-10"
+          required
+        /><br /><br />
+
+        <label for="numAdults">Nombre d'adultes:</label>
+        <input
+          type="number"
+          id="numAdults"
+          name="numAdults"
+          value="1"
+          min="1"
+          required
+        /><br /><br />
+
+        <!-- Ajout des champs supplémentaires -->
+        <label for="numSeniors">Nombre de personnes âgées:</label>
+        <input
+          type="number"
+          id="numSeniors"
+          name="numSeniors"
+          value="0"
+          min="0"
+          required
+        /><br /><br />
+
+        <label for="classOfService">Classe de service:</label>
+        <select id="classOfService" name="classOfService" required>
+          <option value="ECONOMY">Économie</option>
+          <option value="BUSINESS">Affaires</option>
+          <option value="FIRST">Première classe</option></select
+        ><br /><br />
+
+        <!-- Bouton de soumission -->
+        <button type="submit">Rechercher des vols</button>
+      </form>
+
+      <!-- Les suggestions de voyages seront affichées ici -->
+      <div id="flightDetails"></div>
+    </div>
+
+    <script>
+      const flightForm = document.getElementById("flightForm");
+      const flightDetailsContainer = document.getElementById("flightDetails");
+
+      flightForm.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Empêche le rechargement de la page lors de la soumission du formulaire
+
+        const formData = new FormData(flightForm);
+        const sourceAirportCode = formData.get("sourceAirportCode");
+        const destinationAirportCode = formData.get("destinationAirportCode");
+        const date = formData.get("date");
+        const returnDate = formData.get("returnDate");
+        const numAdults = formData.get("numAdults");
+        const numSeniors = formData.get("numSeniors"); // Ajout du nombre de personnes âgées
+        const classOfService = formData.get("classOfService"); // Ajout de la classe de service
+
+        //   const flights = await getFlights(
+        //     sourceAirportCode,
+        //     destinationAirportCode,
+        //     date,
+        //     returnDate,
+        //     numAdults,
+        //     numSeniors,
+        //     classOfService // Passage des nouveaux champs à la fonction getFlights
+        //   );
+        //   displayFlights(flights);
+      });
+
+      const getFlights = async (
+        sourceAirportCode,
+        destinationAirportCode,
+        date,
+        returnDate,
+        numAdults,
+        numSeniors,
+        classOfService // Ajout des nouveaux paramètres
+      ) => {
+        const res = await fetch(
+          `https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=${sourceAirportCode}&destinationAirportCode=${destinationAirportCode}&date=${date}&itineraryType=${iterType}&sortOrder=${sortOrder}&numAdults=${numAdults}&numSeniors=0&classOfService=${classOfService}&returnDate=${rdate}&pageNumber=1&currencyCode=USD`,
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key":
+                "6afcbfb716mshb7c98be5a844147p16a76bjsnfb5c286d9855",
+              "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
+            },
+          }
+        );
+
+        const data = await res.json();
+        return data.data.flights; // Retourne la liste des vols depuis l'objet 'data'
+      };
+
+      const displayFlights = (flights) => {
+        flightDetailsContainer.innerHTML = ""; // Efface les détails des vols précédents avant d'afficher les nouveaux
+
+        flights.forEach((flight, index) => {
+          const flightDetails = `
+               <div>
+                 <h2>Vol ${index + 1}:</h2>
+                 <p>Nom du vol: ${flight.purchaseLinks[0].commerceName}</p>
+                 <p>Compagnie aérienne: ${
+                   flight.purchaseLinks[0].partnerSuppliedProvider.displayName
+                 }</p>
+                 <p>Départ: ${flight.segments[0].departureAirportCode}</p>
+                 <p>Arrivée: ${
+                   flight.segments[flight.segments.length - 1]
+                     .arrivalAirportCode
+                 }</p>
+                 <p>Prix: ${flight.purchaseLinks[0].totalPrice}</p>
+                 <hr />
+               </div>
+             `;
+          flightDetailsContainer.insertAdjacentHTML("beforeend", flightDetails);
+        });
+      };
+    </script>
+  </body>
+</html>

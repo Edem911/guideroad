@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil - Site de Réservation de Voyages</title>
+    <style>
+      /* Styles CSS pour la mise en forme */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+      }
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 24px;
+      }
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+        overflow: hidden;
+      }
+      nav li {
+        float: left;
+      }
+      nav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      nav li a:hover {
+        background-color: #0056b3;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+      }
+      .search-bar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .search-bar input[type="text"] {
+        width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        outline: none;
+        font-size: 16px;
+      }
+      .search-bar button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        margin-left: 10px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+      .search-bar button:hover {
+        background-color: #0056b3;
+      }
+      .suggestions {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .suggestion {
+        width: 30%;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+        transition: transform 0.3s ease;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-decoration: none; /* ajout */
+        color: inherit; /* ajout */
+      }
+      .suggestion:hover {
+        transform: scale(1.05);
+      }
+      .suggestion img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+      }
+      .plan-button {
+        display: block;
+        width: 200px;
+        padding: 10px;
+        margin: 20px auto;
+        text-align: center;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .plan-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Site de Réservation de Voyages</header>
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="index1.html">Accueil</a></li>
+          <li><a href="destination.html">Destinations</a></li>
+          <li style="float: right"><a href="#">À propos</a></li>
+          <li style="float: right"><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="search-bar">
+        <input
+          type="text"
+          placeholder="Rechercher un lieu, une destination..."
+          id="search-input"
+        />
+        <button>Rechercher</button>
+      </div>
+      <div class="suggestions">
+        <a href="details.html#paris" class="suggestion" data-city="paris">
+          <h3>Paris, France</h3>
+          <img
+            src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcT5kqHJGOkTnwcwET80mFy9fsRkbvO2TsbMAdUu7k1ajw_Zl4PcCfl3_cp65ovx3519jAawRdDhHG_xaqNxAHSQEky8nD34AvzrM0RjnA"
+            alt="Paris"
+          />
+          <p>Budget: 40€</p>
+          <p>Température: 15°C</p>
+          <p>Mois: Mars</p>
+        </a>
+        <a href="details.html#new-york" class="suggestion" data-city="new-york">
+          <h3>New York, USA</h3>
+          <img
+            src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQCgcZCSpl58TBk03X3u9mzmmPbhaYuRuO_R0sMcL8uoto40-RstGTRx2R5kV6Rh4F2UmfH52rH6pgP7d611RwMN8MhrDPF6PJrWxT9wA"
+            alt="New York"
+          />
+          <p>Budget: 1200€</p>
+          <p>Température: 10°C</p>
+          <p>Mois: Janvier</p>
+        </a>
+        <a href="details.html#tokyo" class="suggestion" data-city="tokyo">
+          <h3>Tokyo, Japon</h3>
+          <img
+            src="https://lh5.googleusercontent.com/proxy/0diPJjN9qaBKIKjeTUrLa0xZe_U54nyoPCCgX06VT_jXy4aA2Dpxw4uBxvDXdAxQl5cR_rY3ehxQXpggIiusgS-IgDnR6KxuspMjsNH1ybaz7ioWvtwZZH_4OCZ8oQpeaGf5_VRMyR8pbeDTAev1qIePUCD6Vw=w675-h390-n-k-no"
+            alt="Tokyo"
+          />
+          <p>Budget: 530€</p>
+          <p>Température: 20°C</p>
+          <p>Mois: Avril</p>
+        </a>
+      </div>
+      <a href="destination.html" class="plan-button">Planifier</a>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search-input");
+        const suggestions = document.querySelectorAll(".suggestion");
+
+        searchInput.addEventListener("input", function () {
+          const searchTerm = searchInput.value.trim().toLowerCase();
+
+          suggestions.forEach(function (suggestion) {
+            const cityName = suggestion.dataset.city.toLowerCase();
+            if (cityName.includes(searchTerm)) {
+              suggestion.style.display = "block";
+            } else {
+              suggestion.style.display = "none";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

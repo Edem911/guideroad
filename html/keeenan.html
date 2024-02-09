@@ -1,0 +1,80 @@
+User Ainsi, voici l'index.html que j'ai utiliser en brouillon afin d'integrer
+l'api de tripAdvisor :
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plateforme de Réservation de Voyages</title>
+  </head>
+  <body>
+    <h1>Bienvenue sur notre plateforme de réservation de voyages !</h1>
+    <div id="suggestions">
+      <!-- Les suggestions de voyages seront affichées ici -->
+      <button type="button" id="api">Afficher les vols disponibles</button>
+    </div>
+
+    <script>
+      const suggestionsDiv = document.getElementById("suggestions");
+
+      const displayFlightResults = (flights) => {
+        // Supprimer tout contenu précédent dans la div de suggestions
+        suggestionsDiv.innerHTML = "";
+
+        // Vérifier si des vols ont été trouvés
+        if (
+          flights.status === true &&
+          flights.data &&
+          flights.data.length > 0
+        ) {
+          flights.data.forEach((flight) => {
+            // Créer un élément de paragraphe pour chaque vol et afficher les détails
+            const flightElement = document.createElement("p");
+            flightElement.textContent = `Flight from ${flight.source} to ${flight.destination} | Price: ${flight.price}`;
+
+            // Ajouter l'élément de vol à la div de suggestions
+            suggestionsDiv.appendChild(flightElement);
+          });
+        } else {
+          // Afficher un message si aucun vol n'a été trouvé
+          suggestionsDiv.textContent = "Aucun vol trouvé.";
+        }
+      };
+
+      const getData = async () => {
+        try {
+          const res = await fetch(
+            `https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=${sourceAirportCode}&destinationAirportCode=${destinationAirportCode}&date=${date}&itineraryType=${iterType}&sortOrder=${sortOrder}&numAdults=${numAdults}&numSeniors=0&classOfService=${classOfService}&returnDate=${rdate}&pageNumber=1&currencyCode=USD`,
+            {
+              method: "GET",
+              headers: {
+                "X-RapidAPI-Key":
+                  "bcbbe46cf6mshaf1cae4a7050413p1b5dc9jsn81109deb6885",
+                "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
+              },
+            }
+          );
+
+          const data = await res.json();
+
+          // Afficher les résultats des vols dans la page HTML
+          displayFlightResults(data);
+        } catch (error) {
+          console.error(
+            "Une erreur s'est produite lors de la récupération des données:",
+            error
+          );
+          // Afficher un message d'erreur dans la page HTML
+          suggestionsDiv.textContent =
+            "Une erreur s'est produite lors de la récupération des données.";
+        }
+      };
+
+      const btn = document.getElementById("api");
+      btn.addEventListener("click", async () => {
+        await getData();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Résultats des Vols</title>
+    <!-- Styles CSS ici si nécessaire -->
+  </head>
+  <body>
+    <h1>Résultats des Vols</h1>
+    <div id="flightResults"></div>
+
+    <script>
+      // JavaScript pour récupérer les données des vols et les afficher
+      document.addEventListener("DOMContentLoaded", function () {
+        const flightResultsContainer = document.getElementById("flightResults");
+
+        // Récupérer les données des vols passées en paramètre de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const flightsData = JSON.parse(urlParams.get("flightsData"));
+
+        // Afficher les détails des vols
+        flightsData.forEach((flight, index) => {
+          const flightDetails = `
+                <div>
+                    <h2>Vol ${index + 1}:</h2>
+                    <p>Nom du vol: ${flight.purchaseLinks[0].commerceName}</p>
+                    <p>Compagnie aérienne: ${
+                      flight.purchaseLinks[0].partnerSuppliedProvider
+                        .displayName
+                    }</p>
+                    <p>Départ: ${flight.segments[0].departureAirportCode}</p>
+                    <p>Arrivée: ${
+                      flight.segments[flight.segments.length - 1]
+                        .arrivalAirportCode
+                    }</p>
+                    <p>Prix: ${flight.purchaseLinks[0].totalPrice}</p>
+                    <hr />
+                </div>
+            `;
+          flightResultsContainer.insertAdjacentHTML("beforeend", flightDetails);
+        });
+      });
+    </script>
+  </body>
+</html>

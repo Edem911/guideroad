@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Détails de la Destination - Site de Réservation de Voyages</title>
+    <style>
+      /* Styles CSS pour la mise en forme */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+      }
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        font-size: 24px;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        background-color: #333;
+        overflow: hidden;
+      }
+      nav li {
+        float: left;
+      }
+      nav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      nav li a:hover {
+        background-color: #0056b3;
+      }
+      .container {
+        width: 80%;
+        margin: auto;
+      }
+      .details {
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .details h2 {
+        margin-bottom: 10px;
+      }
+      .details p {
+        margin-bottom: 5px;
+      }
+      .details img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>Destination Détails</header>
+    <nav>
+      <div class="container">
+        <ul>
+          <li><a href="index1.html">Accueil</a></li>
+          <li><a href="destination.html">Destinations</a></li>
+          <li style="float: right"><a href="#">À propos</a></li>
+          <li style="float: right"><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="details" id="destination-details">
+        <!-- Les détails de la destination seront ajoutés ici par JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Récupérer l'identifiant de la destination à partir de l'URL
+        const destinationId = window.location.hash.substr(1);
+        const destinationDetails = document.getElementById(
+          "destination-details"
+        );
+
+        // Ajouter les détails de la destination en fonction de l'identifiant
+        switch (destinationId) {
+          case "paris":
+            destinationDetails.innerHTML = `
+                        <h2>Paris, France</h2>
+                        <img src="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcT5kqHJGOkTnwcwET80mFy9fsRkbvO2TsbMAdUu7k1ajw_Zl4PcCfl3_cp65ovx3519jAawRdDhHG_xaqNxAHSQEky8nD34AvzrM0RjnA" alt="Paris" />
+                        <p>Budget: €€€</p>
+                        <p>Température: 15°C</p>
+                        <p>Mois: Mars</p>
+                        <p>Description: Paris est la capitale de la France.</p>
+                    `;
+            break;
+          case "new-york":
+            destinationDetails.innerHTML = `
+                        <h2>New York, USA</h2>
+                        <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcQCgcZCSpl58TBk03X3u9mzmmPbhaYuRuO_R0sMcL8uoto40-RstGTRx2R5kV6Rh4F2UmfH52rH6pgP7d611RwMN8MhrDPF6PJrWxT9wA" alt="New York" />
+                        <p>Budget: €€€€</p>
+                        <p>Température: 10°C</p>
+                        <p>Mois: Janvier</p>
+                        <p>Description: New York est une ville animée située sur la côte est des États-Unis.</p>
+                    `;
+            break;
+          case "tokyo":
+            destinationDetails.innerHTML = `
+                        <h2>Tokyo, Japon</h2>
+                        <img src="https://lh5.googleusercontent.com/proxy/0diPJjN9qaBKIKjeTUrLa0xZe_U54nyoPCCgX06VT_jXy4aA2Dpxw4uBxvDXdAxQl5cR_rY3ehxQXpggIiusgS-IgDnR6KxuspMjsNH1ybaz7ioWvtwZZH_4OCZ8oQpeaGf5_VRMyR8pbeDTAev1qIePUCD6Vw=w675-h390-n-k-no" alt="Tokyo" />
+                        <p>Budget: €€€€€</p>
+                        <p>Température: 20°C</p>
+                        <p>Mois: Avril</p>
+                        <p>Description: Tokyo est la capitale du Japon et l'une des villes les plus peuplées du monde.</p>
+                    `;
+            break;
+          default:
+            destinationDetails.innerHTML = "<p>Destination non trouvée</p>";
+        }
+      });
+    </script>
+  </body>
+</html>

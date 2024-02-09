@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plateforme de Réservation de Voyages</title>
+  </head>
+  <body>
+    <h1>Bienvenue sur notre plateforme de réservation de voyages !</h1>
+    <div id="suggestions">
+      <!-- Les suggestions de voyages seront affichées ici -->
+      <button type="button" id="api">Push for api</button>
+      <div id="flightDetails"></div>
+    </div>
+
+    <script>
+      const btn = document.getElementById("api");
+      const flightDetailsContainer = document.getElementById("flightDetails");
+
+      const sourceAirportCode = "BOM";
+      const destinationAirportCode = "DEL";
+      const date = "2024-02-10";
+      const iterType = "ROUND_TRIP";
+      const sortOrder = "PRICE";
+      const numAdults = "1";
+      const classOfService = "BUSINESS";
+      const rdate = "2024-02-11";
+
+      const getData = async () => {
+        const res = await fetch(
+          `https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=${sourceAirportCode}&destinationAirportCode=${destinationAirportCode}&date=${date}&itineraryType=${iterType}&sortOrder=${sortOrder}&numAdults=${numAdults}&numSeniors=0&classOfService=${classOfService}&returnDate=${rdate}&pageNumber=1&currencyCode=USD`,
+          {
+            method: "GET",
+            headers: {
+              "X-RapidAPI-Key":
+                "6afcbfb716mshb7c98be5a844147p16a76bjsnfb5c286d9855",
+              "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
+            },
+          }
+        );
+
+        const data = await res.json();
+        return data.data.flights; // Retourne la liste des vols depuis l'objet 'data'
+      };
+
+      const displayFlights = async () => {
+        const flights = await getData(); // Obtient la liste des vols
+        console.log(flights);
+        // Parcours la liste des vols et affiche les détails de chaque vol
+        const flightDetails = `
+          <div>
+            <p>Nom du vol: ${flights[0].purchaseLinks[0].commerceName}</p>
+            <p>Compagnie aérienne: ${flights[0].purchaseLinks[0].partnerSuppliedProvider.displayName}</p>
+            <p>Départ: BOM</p>
+            <p>Arrivée: DEL</p>
+            <p>Prix: ${flights[0].purchaseLinks[0].totalPrice}</p>
+            <hr />
+          </div>
+        `;
+        console.log(flightDetails);
+        flightDetailsContainer.insertAdjacentHTML("beforeend", flightDetails);
+      };
+
+      btn.addEventListener("click", async () => {
+        flightDetailsContainer.innerHTML = ""; // Efface les détails des vols précédents avant d'afficher les nouveaux
+        console.log("data", await getData());
+        await displayFlights(); // Affiche les détails des vols
+      });
+    </script>
+  </body>
+</html>
